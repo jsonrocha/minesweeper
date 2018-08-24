@@ -3,7 +3,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   height: 100%;
+}
+
+body {
+  background-color: purple;
+}
+
+table {
+  margin-top: 30px;
+}
+
+button {
+  margin-left: 15px;
+  background-color: yellow;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .App-logo {
@@ -26,15 +42,26 @@
   font-size: large;
 }
 
+h1 {
+  color:yellow;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
+td:hover {
+  background-color: blue;
+}
+
 .cell {
   border: 3px solid black;
   padding: 0.1em;
+  background-color: gray;
   margin: 0.1em;
   width: 1em;
   height: 1em;
+  cursor: pointer;
+  font-weight: bold;
 }

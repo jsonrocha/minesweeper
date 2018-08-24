@@ -9,16 +9,16 @@ class Minesweeper extends Component {
             game: {
                 board: []
             },
-            message:''
+            message:'',
+            difficulty: 0
         }
     }
 
-    componentDidMount() {
-        // create the board
-        // create board 
+    createGame() {
+
         fetch(`${BASE_URL}games`,  {
             method: "POST",
-            body: JSON.stringify({ difficulty: 0 }),
+            body: JSON.stringify({ difficulty: this.state.difficulty }),
             headers: {
                 'Content-Type':'application/json'
             }
@@ -32,21 +32,8 @@ class Minesweeper extends Component {
             })
     }
 
-    displayGameResult () {
-        if (this.state.game.state === "lost") {
-            //display lost message
-            this.setState({
-            message: "You lost!"
-            })
-        } else if (this.state.game.state === "win") {
-            this.setState({
-                message:"Oh yeah! You won!"
-            })
-        } else {
-            this.setState({
-                message: "still sweepin..."
-            })
-        }
+    componentDidMount() {
+        this.createGame()
     }
 
     handleCellClick = (row, col) => {
@@ -63,8 +50,10 @@ class Minesweeper extends Component {
                     console.log(newGameState);
                         this.setState({
                             game: newGameState,
+                        }, () => {
+                            this.props.updateMessage(this.state.game.state)
+
                         })
-                        this.displayGameResult()
                 })
         }
 
@@ -91,10 +80,30 @@ class Minesweeper extends Component {
 
     }
 
+    resetEvent = () => {
+        //
+        this.createGame()
+    }
+
+    handleDifficultyChange = (event) => {
+        this.setState({
+            difficulty: event.target.value
+        }, () => {
+            this.createGame()
+        })
+    }
+
     render() {
         return (
             <div>
-                  <h1>{this.state.message}</h1>
+                  <section>
+                      <select name="difficulty" onChange={(event) => this.handleDifficultyChange(event)}>
+                          <option value="0">Easy</option>
+                          <option value="1">Normal</option>
+                          <option value="2">Hard</option>
+                      </select>
+                    <button onClick={this.resetEvent}><span>Reset Game</span></button>
+                  </section>
                <table>
                    <tbody>
                        {this.state.game.board.map((row, i) => {
